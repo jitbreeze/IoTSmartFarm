@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SmartFarmHome</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_mypage">My</string>
+
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">My Page</string>
+    <string name="nav_header_desc">Navigation header</string>
+</resources>
