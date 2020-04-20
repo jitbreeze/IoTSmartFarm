@@ -18,7 +18,7 @@ import com.example.smartfarmhome.R;
 import com.example.smartfarmhome.SmartDiagnose;
 
 public class MyPageFragment extends Fragment {
-    private com.example.smartfarmhome.ui.mypage.MyPageViewModel myPageViewModel;
+    private MyPageViewModel myPageViewModel;
 
     Button mp_History; Button mp_SmartDiagnose; Button mp_Info;
     public View onCreateView(@NonNull LayoutInflater inflater,

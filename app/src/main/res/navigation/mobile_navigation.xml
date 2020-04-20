@@ -19,7 +19,13 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.smartfarmhome.ui.notifications.MyPageFragment"
+        android:name="com.example.smartfarmhome.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_mypage"
+        android:name="com.example.smartfarmhome.ui.mypage.MyPageFragment"
+        android:label="@string/title_mypage"
+        tools:layout="@layout/fragment_mypage" />
 </navigation>
