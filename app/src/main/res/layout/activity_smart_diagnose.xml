@@ -16,7 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         android:orientation="vertical">
 
         <ImageView
@@ -24,7 +24,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/smile" />
+            android:background="@drawable/ic_smile" />
 
         <TextView
             android:id="@+id/sd_status"
@@ -33,7 +33,7 @@
             android:layout_marginTop="30dp"
             android:gravity="center_horizontal"
             android:text="제품이 정상적으로 연결되었습니다"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -200,20 +200,25 @@
         </LinearLayout>
     </GridLayout>
 
-    <TextView
-        android:id="@+id/footer"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="제품의 유지 보수를 위하여 아래의\n 사용 가이드를 확이해 주세요"
-        android:textSize="15sp" />
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/ic_logo"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/logo" />
+        <ImageView
+            android:id="@+id/ic_logo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/footer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:text="제품의 유지 보수를 위하여 아래의\n 사용 가이드를 확이해 주세요"
+            android:textSize="15sp" />
+    </LinearLayout>
 </LinearLayout>

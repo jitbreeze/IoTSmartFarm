@@ -8,20 +8,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         android:gravity="top|left"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        android:background="@drawable/my_profile_background"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark">
-
+        android:background="@drawable/my_profile_background">
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:contentDescription="@string/nav_header_desc"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             app:srcCompat="@drawable/profile" />
@@ -32,18 +29,8 @@
             android:paddingTop="8dp"
             android:text="@string/nav_header_title"
             android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:textSize="40sp"
-            android:textColor="#FFFFFF"
-            android:text="@string/nav_header_subtitle" />
     </LinearLayout>
 
     <RelativeLayout
@@ -99,43 +86,40 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="10dp">
         <Button
             android:id="@+id/mp_History"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="50dp"
             android:background="@drawable/mp_button_style"
             android:text="내가 쓴 글"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:stateListAnimator="@null"/>
         <Button
             android:id="@+id/mp_SmartDiagnose"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="50dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/mp_button_style"
             android:text="스마트 진단"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:stateListAnimator="@null"/>
         <Button
             android:id="@+id/mp_Info"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="50dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/mp_button_style"
             android:text="공지사항"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:stateListAnimator="@null"/>
     </LinearLayout>
-
-
-
 </LinearLayout>
 
     <!--<TextView-->

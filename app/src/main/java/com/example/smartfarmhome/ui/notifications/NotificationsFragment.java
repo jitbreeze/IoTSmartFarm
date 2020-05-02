@@ -11,23 +11,45 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
+import com.example.smartfarmhome.CalendarFragment;
+import com.example.smartfarmhome.DiaryAdapter;
+import com.example.smartfarmhome.DiaryFragment;
 import com.example.smartfarmhome.R;
+import com.google.android.material.tabs.TabLayout;
 
 public class NotificationsFragment extends Fragment {
 
     private NotificationsViewModel notificationsViewModel;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
+    TabLayout tabLayout; ViewPager viewPager; DiaryAdapter adapter;
+    CalendarFragment calendarFragment; DiaryFragment diaryFragment;
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        notificationsViewModel = ViewModelProviders.of(this).get(NotificationsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_notifications, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(this, new Observer<String>() {
+        calendarFragment = new CalendarFragment(); diaryFragment = new DiaryFragment();
+        viewPager = root.findViewById(R.id.diaryViewPager);
+        tabLayout = root.findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("Diary"));
+        tabLayout.addTab(tabLayout.newTab().setText("Calendar"));
+        adapter = new DiaryAdapter(getFragmentManager());
+        adapter.addItem(diaryFragment); adapter.addItem(calendarFragment);
+        viewPager.setAdapter(adapter);
+        viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
         return root;
