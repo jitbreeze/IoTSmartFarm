@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--김지수 작성-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#F5F5F5"
+    android:orientation="vertical"
     tools:context=".WriteDiary">
+
+
     <TextView
         android:id="@+id/wd_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_marginTop="10dp"
-        android:textSize="15sp"/>
+        android:gravity="center"
+        android:textSize="15sp" />
+
+
     <ImageButton
         android:id="@+id/wd_add"
         android:layout_width="300dp"
@@ -20,7 +25,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:background="@drawable/add_photo_background"
-        android:scaleType="centerInside"/>
+        android:scaleType="centerInside" />
 
     <EditText
         android:id="@+id/wd_content"
@@ -37,9 +42,17 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/wd_btn_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="날짜선택" />
+
+        <Button
             android:id="@+id/wd_btn_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
             android:text="작성완료" />
 

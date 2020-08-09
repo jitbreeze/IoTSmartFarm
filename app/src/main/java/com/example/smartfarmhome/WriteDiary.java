@@ -3,77 +3,79 @@ package com.example.smartfarmhome;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.squareup.picasso.Picasso;
-
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
 
-public class WriteDiary extends AppCompatActivity {
-    private static final int PICK_FROM_ALBUM = 101;
-    EditText wd_content; ImageButton wd_add; Button wd_btn_save; Button wd_btn_fin;
+
+//김지수 작성
+public class WriteDiary extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener{
+    private static final int GET_GALLERY_IMAGE = 200;
+    EditText wd_content; ImageButton wd_add; Button wd_btn_save; Button wd_btn_fin; Button wd_btn_date;
     TextView wd_date; Uri mImageUri;
+    public static long timestamp;
     private DatabaseReference mDatabaseRef; private StorageReference mStorageRef;
-    private StorageTask mUploadTask;
+    private StorageTask mUploadTask; private FirebaseAuth firebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_diary);
-        tedPermission();  getSupportActionBar().hide();
-        Date currentTime = Calendar.getInstance().getTime();
-        String date = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일", Locale.getDefault()).format(currentTime);
-
+        getSupportActionBar().hide();
         wd_content = findViewById(R.id.wd_content);
         wd_add = findViewById(R.id.wd_add);
         wd_btn_fin = findViewById(R.id.wd_btn_fin);
         wd_btn_save = findViewById(R.id.wd_btn_save);
+        wd_btn_date = findViewById(R.id.wd_btn_date);
         wd_date = findViewById(R.id.wd_date);
-        mStorageRef = FirebaseStorage.getInstance().getReference("diary");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("diary");
+        firebaseAuth = FirebaseAuth.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference("diary/"+firebaseAuth.getCurrentUser().getUid());
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("diary/"+firebaseAuth.getCurrentUser().getUid());
 
-        wd_date.setText(date);
         wd_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                startActivityForResult(intent, PICK_FROM_ALBUM);
+                intent.setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivityForResult(intent, GET_GALLERY_IMAGE);
             }
         });
         wd_btn_save.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +87,13 @@ public class WriteDiary extends AppCompatActivity {
                     upLoadFile();
                 }
                 finish();
+            }
+        });
+        wd_btn_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getSupportFragmentManager(),"date picker");
             }
         });
         wd_btn_fin.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +119,8 @@ public class WriteDiary extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             final String downloadUrl = uri.toString();
-                            CardItem item = new CardItem(wd_date .getText().toString(),wd_content.getText().toString(), downloadUrl);
+                            CardItem item = new CardItem(wd_date.getText().toString(),wd_content.getText().toString(),
+                                    downloadUrl,timestamp, firebaseAuth.getCurrentUser().getUid());
                             String uploadId = mDatabaseRef.push().getKey();
                             mDatabaseRef.child(uploadId).setValue(item);
                         }
@@ -127,39 +137,28 @@ public class WriteDiary extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"No file selected",Toast.LENGTH_LONG).show();
         }
     }
-
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        String currentDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(c.getTime());
+        timestamp = c.getTimeInMillis();
+        wd_date.setText(currentDate);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if(requestCode == PICK_FROM_ALBUM) {
+        if(requestCode == GET_GALLERY_IMAGE) {
             if(resultCode == RESULT_OK) {
                 try{
                     mImageUri = data.getData();
-                    Picasso.with(this).load(mImageUri).into(wd_add);
+                    Glide.with(this).load(mImageUri).into(wd_add);
                 }
                 catch(Exception e) {
                     e.printStackTrace();
                 }
             }
         }
-    }
-
-    public void tedPermission(){
-        PermissionListener permissionListener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-
-            }
-
-            @Override
-            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-
-            }
-        };
-        TedPermission.with(this)
-                .setPermissionListener(permissionListener)
-                .setRationaleMessage(getResources().getString(R.string.permission_2))
-                .setDeniedMessage(getResources().getString(R.string.permission_1))
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-                .check();
     }
 }

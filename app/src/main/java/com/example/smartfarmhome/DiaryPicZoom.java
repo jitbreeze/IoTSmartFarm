@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Picasso;
-
+//김지수 작성
 public class DiaryPicZoom extends AppCompatActivity{
 
     @Override

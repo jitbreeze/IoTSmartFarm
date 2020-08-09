@@ -1,25 +1,18 @@
 package com.example.smartfarmhome;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.database.Exclude;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
+//김지수 작성
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     ArrayList<CardItem> items = new ArrayList<CardItem>();
@@ -92,27 +85,32 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull CardAdapter.ViewHolder holder, int position) {
         holder.diaryDate.setText(items.get(position).getDate());
         holder.diaryText.setText(items.get(position).getContent());
-        Picasso.with(context).load(items.get(position).getImage()).fit().centerCrop().into(holder.diaryPic);
+        Picasso.with(context).load(items.get(position).getImage())
+                             .placeholder(R.drawable.ic_loading).fit()
+                             .centerCrop()
+                             .into(holder.diaryPic);
         holder.setOnItemClickListener(listener);
     }
-
-
 }
 
+//김지수 작성
 class CardItem {
     public String date;
     public String content;
     public String image;
+    public long timestamp;
     private String mkey;
+    public String uid;
 
     public CardItem() {}
 
-    public CardItem(String date, String content, String image) {
+    public CardItem(String date, String content, String image, long timestamp, String uid) {
         this.date = date;
         this.content = content;
         this.image = image;
+        this.timestamp = timestamp;
+        this.uid = uid;
     }
-
     public String getDate() { return date; }
     public String getContent() {
         return content;
@@ -124,4 +122,11 @@ class CardItem {
     public String getkey() {return mkey;}
     @Exclude
     public void setkey(String key) { this.mkey = key; }
+
+    public String getUid() {
+        return uid;
+    }
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 }

@@ -1,7 +1,11 @@
 package com.example.smartfarmhome;
 
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public interface DiaryCallback {
-    void OnWritten(String date, String content, String img);
+    void OnWritten(Date date);
 }

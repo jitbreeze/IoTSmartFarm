@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
-
+//김지수 작성
 public class DiaryAdapter extends FragmentStatePagerAdapter {
     ArrayList<Fragment> items = new ArrayList<Fragment>();
 
