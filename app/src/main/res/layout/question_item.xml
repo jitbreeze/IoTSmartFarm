@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/questionArea"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/cntntsNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="5sp"
+        android:text="221156 "/>
+
+    <TextView
+        android:id="@+id/cntntsSj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:text="토마토 잎에 발생한 병해충 문의"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="작성자 :  "/>
+        <TextView
+            android:id="@+id/wrterNm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="고호철 "/>
+    </LinearLayout>
+
+
+</LinearLayout>

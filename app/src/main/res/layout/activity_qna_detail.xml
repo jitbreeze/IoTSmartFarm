@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".QnaDetail">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:text="질문과 답변" />
+
+        <TextView
+            android:id="@+id/cntntsSj"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textSize="20sp"
+            android:textColor="#000000"
+            android:text="가구배치와 인테리어 도와주세요"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/wrterNm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:text="작성자"/>
+
+            <TextView
+                android:id="@+id/regDt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:text="2020-09-01"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/questDtl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:text="토마토가 죽고있어요"/>
+
+        <ImageView
+            android:id="@+id/quesImage"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/basil"/>
+
+        <TextView
+            android:id="@+id/answerDtl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:text="시설하우스에서 토마토 재배시 잎에 갈색 분진같이 보이는 현상과 잎, 줄기가 고사되는 것은 고온 건조한 환경에서 많이 발생하는 ’녹응애‘로 판단됩니다."/>
+
+    </LinearLayout>
+</ScrollView>

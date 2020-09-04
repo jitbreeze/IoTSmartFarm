@@ -8,8 +8,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import com.example.smartfarmhome.Addpost;
+import com.example.smartfarmhome.FoodFlipper;
 import com.example.smartfarmhome.Post_item;
 import com.example.smartfarmhome.Post_item_view;
+import com.example.smartfarmhome.Qna;
 import com.example.smartfarmhome.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -17,11 +19,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import android.content.Intent;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -32,10 +34,7 @@ public class DashboardFragment extends Fragment {
     private DatabaseReference mDatabaseRef; private ValueEventListener mDBListener;
     private DashboardViewModel dashboardViewModel; private FirebaseStorage mStorage;
     PostAdapter adapter; private ArrayList<Post_item> items;
-    ViewFlipper recipe;
-    ViewFlipper tip;
-    Button mR;
-    Button mT;
+    ViewFlipper flipper;
     ListView postlist;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +50,37 @@ public class DashboardFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        flipper = root.findViewById(R.id.flipper);
+        int recipes[] = {
+                R.drawable.food,
+                R.drawable.food2,
+        };
+
+        for(int image : recipes) {
+            ImageView recipeView = new ImageView(getActivity());
+            recipeView.setBackgroundResource(image);
+
+            flipper.addView(recipeView);      // 이미지 추가
+            flipper.setFlipInterval(4000);       // 자동 이미지 슬라이드 딜레이시간(1000 당 1초)
+            flipper.setAutoStart(true);          // 자동 시작 유무 설정
+            flipper.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(flipper.getDisplayedChild() == 0){
+                        Intent intent = new Intent(getActivity(), FoodFlipper.class);
+                        startActivity(intent);
+                    }else if(flipper.getDisplayedChild()==1){
+                        Intent intent = new Intent(getActivity(), Qna.class);
+                        startActivity(intent);
+                    }
+                }
+            });
+            // animation
+            flipper.setInAnimation(getActivity(),android.R.anim.slide_in_left);
+            flipper.setOutAnimation(getActivity(),android.R.anim.slide_out_right);
+        }
+
         items = new ArrayList<>();
         adapter = new PostAdapter(items);
         postlist = root.findViewById(R.id.postlist);

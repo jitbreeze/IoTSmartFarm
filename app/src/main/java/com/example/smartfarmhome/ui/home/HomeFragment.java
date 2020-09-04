@@ -1,6 +1,8 @@
 package com.example.smartfarmhome.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,10 +31,11 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class HomeFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
-    public Button button; public TextView text;Context mContext = null;
+    public Button btn_cam_on; public Button btn_temp; public Button btn_hum;
+    public Button btn_light_on; public Button btn_light_off;
+    public TextView temperature; public TextView humidity;
+    Context mContext = null; EditText temedit; EditText humedit;
     private MqttAndroidClient mqttAndroidClient;
-    public Button btn_publish; EditText td; TextView gettemp;
 
     @Override
     public void onAttach(Context context) {
@@ -42,10 +45,17 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        button = root.findViewById(R.id.btn_comment); text = root.findViewById(R.id.text);
-        btn_publish = root.findViewById(R.id.okbutton); td= root.findViewById(R.id.temedit); gettemp = root.findViewById(R.id.tem);
+        btn_temp = root.findViewById(R.id.btn_temp);
+        btn_hum = root.findViewById(R.id.btn_hum);
+        btn_light_on = root.findViewById(R.id.btn_light_on);
+        btn_light_off = root.findViewById(R.id.btn_light_off);
+        temperature = root.findViewById(R.id.temperature);
+        humidity = root.findViewById(R.id.humidity);
+        btn_cam_on = root.findViewById(R.id.btn_cam_on);
+        humedit = root.findViewById(R.id.humedit);
+        temedit = root.findViewById(R.id.temedit);
         mqttAndroidClient = new MqttAndroidClient(mContext,  "tcp://" + "192.168.137.88" + ":1883", MqttClient.generateClientId());
-        Toast.makeText(mContext,"아이디!"+ MqttClient.generateClientId(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(mContext,"아이디!"+ MqttClient.generateClientId(), Toast.LENGTH_SHORT).show();
 
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
@@ -57,44 +67,68 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     mqttAndroidClient.setBufferOpts(getDisconnectedBufferOptions());    //연결에 성공한경우
-                    Toast.makeText(getActivity(),"연결했삼!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Connected!!!", Toast.LENGTH_SHORT).show();
                     try {
-                        mqttAndroidClient.subscribe("gkdlfn", 0 );
-                        mqttAndroidClient.subscribe("qkrwltn", 0 );//연결에 성공하면 jmlee 라는 토픽으로 subscribe함
+                        mqttAndroidClient.subscribe("light", 0 );//연결에 성공하면 jmlee 라는 토픽으로 subscribe함
+                        mqttAndroidClient.subscribe("temperature", 0 );//연결에 성공하면 jmlee 라는 토픽으로 subscribe함
+                        mqttAndroidClient.subscribe("humidity", 0 );//연결에 성공하면 jmlee 라는 토픽으로 subscribe함
                     } catch (MqttException e) {
                         e.printStackTrace();
                     }
                 }
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {   //연결에 실패한경우
-                    Toast.makeText(getActivity(),"실패했삼", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),"Failed....", Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (MqttException e) {
             e.printStackTrace();
         }
-        button.setOnClickListener(new View.OnClickListener() {
+        btn_light_on.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    mqttAndroidClient.publish("gkdlfn", "hello , my name is jmlee !".getBytes(), 0 , false );
-                    mqttAndroidClient.subscribe("gkdlfn", 0);
-                    //버튼을 클릭하면 jmlee 라는 토픽으로 메시지를 보냄
+                    mqttAndroidClient.publish("light2", "456".getBytes(), 0 , false );
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
             }
         });
-        btn_publish.setOnClickListener(new View.OnClickListener() {
+        btn_light_off.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 try {
-                    mqttAndroidClient.publish("qkrwltn", td.getText().toString().getBytes(), 0 , false );
-                    mqttAndroidClient.subscribe("qkrwltn", 0);
-                    //버튼을 클릭하면 jmlee 라는 토픽으로 메시지를 보냄
+                    mqttAndroidClient.publish("light2", "456".getBytes(), 0 , false );
                 } catch (MqttException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+        btn_temp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    mqttAndroidClient.publish("temperature2", temedit.getText().toString().getBytes(), 0 , false );
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        btn_hum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    mqttAndroidClient.publish("humidity2", humedit.getText().toString().getBytes(), 0 , false );
+                } catch (MqttException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        btn_cam_on.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.137.88:8091/?action=stream"));
+                startActivity(intent);
             }
         });
 
@@ -104,14 +138,13 @@ public class HomeFragment extends Fragment {
             }
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {    //모든 메시지가 올때 Callback method
-                if (topic.equals("gkdlfn")){     //topic 별로 분기처리하여 작업을 수행할수도있음
+                if(topic.equals("temperature")){
                     String msg = new String(message.getPayload());
-                    text.setText(msg);
-                    Log.e("메시지왔삼 : ", msg);
+                    temperature.setText(msg);
                 }
-                else if(topic.equals("qkrwltn")){
+                else if(topic.equals("humidity")){
                     String msg = new String(message.getPayload());
-                    gettemp.setText(msg);
+                    humidity.setText(msg);
                 }
             }
 
