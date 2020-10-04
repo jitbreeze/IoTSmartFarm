@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +42,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class QnaDetail extends AppCompatActivity {
     public String queryUrl ="http://api.nongsaro.go.kr/service/elctrnCvpl/elctrnCvplView?apiKey=20200831DU8INU1KP081UELDKBKMA&cntntsNo=";
-    String cntntNm;  String questDtl; String regDt; String wrterNm;
+    String cntntNm;  public String questDtl; String regDt; String wrterNm;
     String answerDtl; ImageView image; String cntntsSj;
     TextView tquestDtl; TextView tregDt;  TextView twrterNm;
-    TextView tcntntsSj; String imageUrl; TextView tanswerDtl;
+    TextView tcntntsSj; public String imageUrl; TextView tanswerDtl;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +58,8 @@ public class QnaDetail extends AppCompatActivity {
         tregDt = findViewById(R.id.regDt);
         tanswerDtl = findViewById(R.id.answerDtl);
         queryUrl+= cntntNm;
-        Toast.makeText(getApplicationContext(),queryUrl,Toast.LENGTH_LONG).show();
+        image = findViewById(R.id.quesImage);
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -90,13 +93,10 @@ public class QnaDetail extends AppCompatActivity {
                                     regDt = xpp.getText();
                                 }
                                 else if(tag.equals("questDtl")){
-                                    //queryUrl = htmlToArticle(questDtl);
-                                    //imageUrl = htmlToUrl(questDtl);
                                     xpp.next();
                                     questDtl = xpp.getText();
                                 }
                                 else if(tag.equals("answerDtl")){
-                                    //answerDtl = htmlToArticle(answerDtl);
                                     xpp.next();
                                     answerDtl = xpp.getText();
                                 }
@@ -117,9 +117,10 @@ public class QnaDetail extends AppCompatActivity {
                         tcntntsSj.setText(cntntsSj);
                         twrterNm.setText(wrterNm);
                         tregDt.setText(regDt);
-                        tquestDtl.setText(questDtl);
-                        tanswerDtl.setText(answerDtl);
-                        if(imageUrl!=null)Glide.with(getApplicationContext()).load(imageUrl).into(image);
+                        tquestDtl.setText(htmlToArticle(questDtl));
+                        tanswerDtl.setText(htmlToArticle(answerDtl));
+                        if(imageParser(questDtl) == null) image.setVisibility(View.INVISIBLE);
+                        else Glide.with(getApplicationContext()).load(imageParser(questDtl)).into(image);
                     }
                 });
             }
@@ -128,21 +129,17 @@ public class QnaDetail extends AppCompatActivity {
 
     public String htmlToArticle(String xml){
         Document doc = Jsoup.parse(xml);
-        Elements elements = doc.select("p");
-        String desc="";
-        for(Element element : elements){
-            desc+=element.text();
-        }
-        return desc;
-    }
-    public String htmlToUrl(String xml){
-        Document doc = Jsoup.parse(xml);
-        Elements elements = doc.select("img");
-        Element element = elements.first();
-        String desc = element.text();
-        return desc;
+        return doc.text();
     }
 
+    public String imageParser(String xml){
+        Document doc = Jsoup.parse(xml);
+        Elements imgs = doc.getElementsByTag("img");
+        if(imgs.size() > 0) {
+            imageUrl = imgs.get(0).attr("src");
+        }
+        return imageUrl;
+    }
 
 
 }

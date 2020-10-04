@@ -109,17 +109,18 @@
             android:textColor="#FFFFFF"
             android:textStyle="bold"
             android:stateListAnimator="@null"/>
+
         <Button
             android:id="@+id/mp_Info"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/mp_button_style"
-            android:text="공지사항"
+            android:stateListAnimator="@null"
+            android:text="로그아웃"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:stateListAnimator="@null"/>
+            android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>
 

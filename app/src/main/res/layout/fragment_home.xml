@@ -17,11 +17,12 @@
             android:layout_height="wrap_content"
             android:text="온도 "
             android:textSize="30sp" />
+
         <TextView
             android:id="@+id/temperature"
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="0"
             android:textSize="30dp" />
         <TextView
@@ -39,9 +40,9 @@
 
         <Button
             android:id="@+id/btn_temp"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="설정"/>
+            android:text="설정" />
 
     </LinearLayout>
 
@@ -77,9 +78,9 @@
 
         <Button
             android:id="@+id/btn_hum"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="설정"/>
+            android:text="설정" />
     </LinearLayout>
 
     <LinearLayout
@@ -94,16 +95,16 @@
 
         <Button
             android:id="@+id/btn_light_on"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="125dp"
-            android:text="On"/>
+            android:text="On" />
 
         <Button
             android:id="@+id/btn_light_off"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:text="Off"/>
+            android:text="Off" />
     </LinearLayout>
 
     <LinearLayout
@@ -118,10 +119,28 @@
 
         <Button
             android:id="@+id/btn_cam_on"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="190dp"
-            android:text="영상 보기"/>
+            android:text="영상 보기" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수위"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/water"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="190dp"
+            android:text="물이 충분해요" />
     </LinearLayout>
 
 

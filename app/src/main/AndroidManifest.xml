@@ -30,19 +30,21 @@
         <activity android:name=".Addpost" />
         <activity android:name=".Comment" />
         <activity android:name=".Register" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".DiaryPicZoom" />
-        <activity android:name=".WriteDiary" />
-        <activity android:name=".SmartDiagnose" />
         <activity
-            android:name=".Login"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:name=".MainActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".DiaryPicZoom" />
+        <activity android:name=".WriteDiary" />
+        <activity android:name=".SmartDiagnose" />
+        <activity
+            android:name=".Login"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />

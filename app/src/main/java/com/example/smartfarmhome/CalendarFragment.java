@@ -75,11 +75,11 @@ public class CalendarFragment extends Fragment {
         return rootview;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mDatabaseRef.removeEventListener(mDBListener);
-    }
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        mDatabaseRef.removeEventListener(mDBListener);
+//    }
 
 
     class todoAdapter extends BaseAdapter {

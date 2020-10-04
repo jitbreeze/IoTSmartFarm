@@ -34,7 +34,7 @@ public class HomeFragment extends Fragment {
     public Button btn_cam_on; public Button btn_temp; public Button btn_hum;
     public Button btn_light_on; public Button btn_light_off;
     public TextView temperature; public TextView humidity;
-    Context mContext = null; EditText temedit; EditText humedit;
+    Context mContext = null; EditText temedit; EditText humedit; TextView water;
     private MqttAndroidClient mqttAndroidClient;
 
     @Override
@@ -54,6 +54,7 @@ public class HomeFragment extends Fragment {
         btn_cam_on = root.findViewById(R.id.btn_cam_on);
         humedit = root.findViewById(R.id.humedit);
         temedit = root.findViewById(R.id.temedit);
+        water = root.findViewById(R.id.water);
         mqttAndroidClient = new MqttAndroidClient(mContext,  "tcp://" + "192.168.137.88" + ":1883", MqttClient.generateClientId());
         //Toast.makeText(mContext,"아이디!"+ MqttClient.generateClientId(), Toast.LENGTH_SHORT).show();
 
@@ -69,9 +70,9 @@ public class HomeFragment extends Fragment {
                     mqttAndroidClient.setBufferOpts(getDisconnectedBufferOptions());    //연결에 성공한경우
                     Toast.makeText(getActivity(),"Connected!!!", Toast.LENGTH_SHORT).show();
                     try {
-                        mqttAndroidClient.subscribe("light", 0 );//연결에 성공하면 jmlee 라는 토픽으로 subscribe함
-                        mqttAndroidClient.subscribe("temperature", 0 );//연결에 성공하면 jmlee 라는 토픽으로 subscribe함
-                        mqttAndroidClient.subscribe("humidity", 0 );//연결에 성공하면 jmlee 라는 토픽으로 subscribe함
+                        mqttAndroidClient.subscribe("light", 0 );
+                        mqttAndroidClient.subscribe("temperature", 0 );
+                        mqttAndroidClient.subscribe("water", 0 );
                     } catch (MqttException e) {
                         e.printStackTrace();
                     }
@@ -140,11 +141,13 @@ public class HomeFragment extends Fragment {
             public void messageArrived(String topic, MqttMessage message) throws Exception {    //모든 메시지가 올때 Callback method
                 if(topic.equals("temperature")){
                     String msg = new String(message.getPayload());
-                    temperature.setText(msg);
+                    String[] arr = msg.split(" ");
+                    temperature.setText(arr[0]);
+                    humidity.setText(arr[1]);
                 }
-                else if(topic.equals("humidity")){
+                else if(topic.equals("water")){
                     String msg = new String(message.getPayload());
-                    humidity.setText(msg);
+                    if(msg=="101") water.setText("물이 부족해요");
                 }
             }
 
